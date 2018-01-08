@@ -8,7 +8,7 @@
 </head>
 <body>
   <script>
-  var game = new Phaser.Game(480, 320, Phaser.AUTO, null, {
+  var game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
       preload: preload, create: create, update: update
     });
     function preload() {
@@ -16,9 +16,16 @@
       game.scale.pageAlignHorizontally = true;
       game.scale.pageAlignVertically = true;
       game.stage.backgroundColor = '#eee';
+      game.load.image('ball', 'img/ball.png');
     }
-    function create() {}
-    function update() {}
+    function create() {
+      game.physics.startSystem(Phaser.Physics.ARCADE);
+      ball = game.add.sprite(50, 50, 'ball');
+      game.physics.enable(ball, Phaser.Physics.ARCADE);
+      ball.body.velocity.set(150, 150);
+    }
+    function update() {
+    }
 </script>
 </body>
 </html>
