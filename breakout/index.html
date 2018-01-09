@@ -44,10 +44,7 @@
     ball.body.velocity.set(150, 150);
     game.physics.arcade.checkCollision.down = false;
     ball.checkWorldBounds = true;
-    ball.events.onOutOfBounds.add(function(){
-      alert('Game over!');
-      location.reload();
-    }, this);
+    ball.events.onOutOfBounds.add(ballLeaveScreen, this);
     paddle = game.add.sprite(game.world.width*0.5, game.world.height-5, 'paddle');
     paddle.anchor.set(0.5,1);
     game.physics.enable(paddle, Phaser.Physics.ARCADE);
@@ -108,6 +105,23 @@
     if (count_alive == 0) {
       alert('You won the game, congrats!');
       location.reload();
+    }
+  }
+  function ballLeaveScreen() {
+    lives--;
+    if(lives) {
+        livesText.setText('Lives: '+lives);
+        lifeLostText.visible = true;
+        ball.reset(game.world.width*0.5, game.world.height-25);
+        paddle.reset(game.world.width*0.5, game.world.height-5);
+        game.input.onDown.addOnce(function(){
+            lifeLostText.visible = false;
+            ball.body.velocity.set(150, -150);
+        }, this);
+    }
+    else {
+        alert('You lost, game over!');
+        location.reload();
     }
   }
 </script>
